@@ -1,0 +1,12 @@
+{
+  "name": "gradient-archive",
+  "version": "2.0.0",
+  "description": "Static gradient image gallery — 11ty, one file per gradient",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}
