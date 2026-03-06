@@ -66,7 +66,7 @@ layout: layouts/base.njk
     <nav class="gradient-nav">
       {% if currentIndex > 0 %}
         {% set prev = allGradients[currentIndex - 1] %}
-        <a class="gnav-item gnav-prev" href="{{ prev.url }}">
+        <a class="gnav-item gnav-prev" href="{{ prev.url | url }}">
           <span class="gnav-label">← Previous</span>
           <img class="gnav-thumb" src="{{ '/images/thumbs/' | url }}{{ prev.data.thumb or prev.data.full }}" alt="{{ prev.data.title }}" loading="lazy" />
           <span class="gnav-title">{{ prev.data.title }}</span>
@@ -77,7 +77,7 @@ layout: layouts/base.njk
 
       {% if currentIndex < allGradients.length - 1 %}
         {% set next = allGradients[currentIndex + 1] %}
-        <a class="gnav-item gnav-next" href="{{ next.url }}">
+        <a class="gnav-item gnav-next" href="{{ next.url | url }}">
           <span class="gnav-label">Next →</span>
           <img class="gnav-thumb" src="{{ '/images/thumbs/' | url }}{{ next.data.thumb or next.data.full }}" alt="{{ next.data.title }}" loading="lazy" />
           <span class="gnav-title">{{ next.data.title }}</span>
