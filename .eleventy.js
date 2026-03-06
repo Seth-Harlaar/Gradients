@@ -42,6 +42,7 @@ module.exports = function (eleventyConfig) {
   );
 
   return {
+    pathPrefix: "/Gradients/",
     dir: {
       input:    "src",
       output:   "_site",

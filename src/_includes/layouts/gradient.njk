@@ -8,17 +8,18 @@ layout: layouts/base.njk
   <div class="gradient-hero">
     <img
       class="gradient-hero-img"
-      src="/images/full/{{ thumb or full }}"
+      src="{{ '/images/full/' | url }}{{ thumb or full }}"
       alt="{{ title }}"
     />
+    
     <div class="gradient-hero-overlay">
-      <a href="/" class="back-link">← All gradients</a>
+      <a href="{{ '/' | url }}" class="back-link">← All gradients</a>
       <div class="gradient-hero-meta">
         <h1 class="gradient-title">{{ title }}</h1>
         {% if tags %}
           <div class="gradient-tags">
             {% for tag in tags %}
-              <a class="tag-pill" href="/?tag={{ tag }}">{{ tag }}</a>
+              <a class="tag-pill" href="{{ '/?tag=' | url }}{{ tag }}">{{ tag }}</a>
             {% endfor %}
           </div>
         {% endif %}
@@ -67,7 +68,7 @@ layout: layouts/base.njk
         {% set prev = allGradients[currentIndex - 1] %}
         <a class="gnav-item gnav-prev" href="{{ prev.url }}">
           <span class="gnav-label">← Previous</span>
-          <img class="gnav-thumb" src="/images/thumbs/{{ prev.data.thumb or prev.data.full }}" alt="{{ prev.data.title }}" loading="lazy" />
+          <img class="gnav-thumb" src="{{ '/images/thumbs/' | url }}{{ prev.data.thumb or prev.data.full }}" alt="{{ prev.data.title }}" loading="lazy" />
           <span class="gnav-title">{{ prev.data.title }}</span>
         </a>
       {% else %}
@@ -78,7 +79,7 @@ layout: layouts/base.njk
         {% set next = allGradients[currentIndex + 1] %}
         <a class="gnav-item gnav-next" href="{{ next.url }}">
           <span class="gnav-label">Next →</span>
-          <img class="gnav-thumb" src="/images/thumbs/{{ next.data.thumb or next.data.full }}" alt="{{ next.data.title }}" loading="lazy" />
+          <img class="gnav-thumb" src="{{ '/images/thumbs/' | url }}{{ next.data.thumb or next.data.full }}" alt="{{ next.data.title }}" loading="lazy" />
           <span class="gnav-title">{{ next.data.title }}</span>
         </a>
       {% endif %}

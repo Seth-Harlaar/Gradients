@@ -20,7 +20,7 @@ title: Gradient Archive
   {% for gradient in collections.gradients %}
     <a
       class="card"
-      href="{{ gradient.url }}"
+      href="{{ gradient.url | url }}"
       data-tags="{{ gradient.data.tags | jsonify }}"
       style="animation-delay: {{ loop.index0 * 55 }}ms"
       aria-label="View {{ gradient.data.title }}"
@@ -29,7 +29,7 @@ title: Gradient Archive
         <div class="card-skeleton" aria-hidden="true"></div>
         <img
           class="card-thumb"
-          src="/images/thumbs/{{ gradient.data.thumb or gradient.data.full }}"
+          src="{{ '/images/thumbs/' | url }}{{ gradient.data.thumb or gradient.data.full }}"
           alt="{{ gradient.data.title }}"
           loading="lazy"
           decoding="async"
