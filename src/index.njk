@@ -3,18 +3,15 @@ layout: layouts/base.njk
 title: Gradient Archive
 ---
 
-{# Collect all unique tags from the gradients collection #}
 {% set allTags = collections.gradients | allTags %}
 
-{# ── Tag filter bar ── #}
 <nav class="tag-bar" id="tagBar" aria-label="Filter by tag">
-  <button class="tag-btn active" data-tag="all">All</button>
+  <sp-button data-tag="all" variant="primary">All</sp-button>
   {% for tag in allTags %}
-    <button class="tag-btn" data-tag="{{ tag }}">{{ tag }}</button>
+    <sp-button data-tag="{{ tag }}">{{ tag }}</sp-button>
   {% endfor %}
 </nav>
 
-{# ── Gallery grid ── #}
 <div class="gallery-grid" id="galleryGrid" aria-label="Gradient gallery">
 
   {% for gradient in collections.gradients %}
@@ -47,3 +44,8 @@ title: Gradient Archive
   {% endfor %}
 
 </div>
+
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/Seth-Harlaar/sp-components/components/sp-button.js'
+</script>
+<script src="{{ '/js/gallery.js' | url }}"></script>

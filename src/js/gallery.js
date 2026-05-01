@@ -1,13 +1,11 @@
 /* =====================================================
    GRADIENT ARCHIVE — gallery.js
    Homepage only: tag filtering + thumbnail fade-in.
-   Detail pages need no JS at all.
    ===================================================== */
 
 (function () {
   "use strict";
 
-  // Only run on homepage (grid exists)
   const grid   = document.getElementById("galleryGrid");
   const tagBar = document.getElementById("tagBar");
   if (!grid || !tagBar) return;
@@ -25,40 +23,45 @@
     }
   });
 
-  // ── Tag filtering ─────────────────────────────────
-  // Check for ?tag= param on load (linked from detail page tag pills)
-  const params = new URLSearchParams(window.location.search);
-  const initTag = params.get("tag");
+  // ── Helpers ───────────────────────────────────────
+  function allBtns()  { return tagBar.querySelectorAll("sp-button[data-tag]"); }
+  function allBtn()   { return tagBar.querySelector('sp-button[data-tag="all"]'); }
+  function setActive(btn)   { btn.setAttribute("variant", "primary"); }
+  function clearActive(btn) { btn.removeAttribute("variant"); }
+
+  // ── Init from ?tag= URL param ─────────────────────
+  const initTag = new URLSearchParams(window.location.search).get("tag");
   if (initTag) {
-    const btn = tagBar.querySelector(`[data-tag="${initTag}"]`);
+    const btn = tagBar.querySelector(`sp-button[data-tag="${initTag}"]`);
     if (btn) {
-      tagBar.querySelector('[data-tag="all"]').classList.remove("active");
-      btn.classList.add("active");
+      clearActive(allBtn());
+      setActive(btn);
       activeTags.add(initTag);
       applyFilter();
     }
   }
 
+  // ── Tag click handling ────────────────────────────
   tagBar.addEventListener("click", e => {
-    const btn = e.target.closest(".tag-btn");
+    const btn = e.target.closest("sp-button[data-tag]");
     if (!btn) return;
     const tag = btn.dataset.tag;
 
     if (tag === "all") {
       activeTags.clear();
-      tagBar.querySelectorAll(".tag-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+      allBtns().forEach(clearActive);
+      setActive(btn);
     } else {
-      tagBar.querySelector('[data-tag="all"]').classList.remove("active");
+      clearActive(allBtn());
       activeTags.has(tag) ? activeTags.delete(tag) : activeTags.add(tag);
-      btn.classList.toggle("active", activeTags.has(tag));
-      if (activeTags.size === 0) tagBar.querySelector('[data-tag="all"]').classList.add("active");
+      activeTags.has(tag) ? setActive(btn) : clearActive(btn);
+      if (activeTags.size === 0) setActive(allBtn());
     }
 
-    // Update URL without reload so back button works cleanly
     const url = new URL(window.location);
-    if (activeTags.size === 1) { url.searchParams.set("tag", [...activeTags][0]); }
-    else { url.searchParams.delete("tag"); }
+    activeTags.size === 1
+      ? url.searchParams.set("tag", [...activeTags][0])
+      : url.searchParams.delete("tag");
     history.replaceState({}, "", url);
 
     applyFilter();

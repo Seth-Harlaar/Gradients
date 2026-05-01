@@ -9,25 +9,40 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ '/css/style.css' | url }}" />
-  {% block head %}{% endblock %}
+  <script>
+    (function () {
+      var saved = localStorage.getItem('sp-theme');
+      if (!saved) { saved = 'dark'; localStorage.setItem('sp-theme', saved); }
+      var base = 'https://cdn.jsdelivr.net/gh/Seth-Harlaar/sp-components/themes/';
+      document.documentElement.setAttribute('data-theme', saved);
+      function mkLink(id, href) {
+        var el = document.createElement('link');
+        el.rel = 'stylesheet'; el.id = id; el.href = href;
+        document.head.appendChild(el);
+      }
+      mkLink('sp-theme-tokens', base + 'default.css');
+      mkLink('sp-theme-active', base + saved + '.css');
+    })();
+  </script>
 </head>
 <body class="{{ bodyClass or '' }}">
 
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="{{ '/' | url }}" class="site-title-link">
-        <span class="site-title">Gradients</span>
-      </a>
-    </div>
-  </header>
+  <sp-theme></sp-theme>
+
+  <sp-nav sticky>
+    <a slot="brand" class="site-title-link" href="{{ '/' | url }}">
+      <span class="site-title">Gradients</span>
+    </a>
+  </sp-nav>
 
   <main>
     {{ content | safe }}
   </main>
 
-  {% block scripts %}
-    <script src="{{ '/js/gallery.js' | url }}"></script>
-  {% endblock %}
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/gh/Seth-Harlaar/sp-components/components/sp-theme.js'
+    import 'https://cdn.jsdelivr.net/gh/Seth-Harlaar/sp-components/components/sp-nav.js'
+  </script>
 
 </body>
 </html>
